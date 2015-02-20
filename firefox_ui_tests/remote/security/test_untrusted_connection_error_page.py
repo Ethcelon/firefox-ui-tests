@@ -30,5 +30,6 @@ class TestUntrustedConnectionErrorPage(FirefoxTestCase):
             time.sleep(1)
             button = self.marionette.find_element(By.ID,
                                                   "getMeOutOfHereButton")
+            self.assertTrue(button.is_displayed())
             button.click()
             self.assertEqual(self.marionette.get_url(), 'about:home')

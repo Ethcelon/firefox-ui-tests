@@ -36,8 +36,5 @@ class TestMixedContent(FirefoxTestCase):
         self.wait_for_condition(identity_popup_displayed)
         encryption_label = identity_popup.encryption_label
         label_text = encryption_label.text
-        prop = self.browser._l10n.get_property(
-            ['chrome://browser/locale/browser.properties'],
-            'identity.broken_loaded'
-            )
+        prop = self.browser.get_property('identity.broken_loaded')
         self.assertEqual(label_text, prop)

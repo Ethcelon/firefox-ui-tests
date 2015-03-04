@@ -16,7 +16,7 @@ class TestMixedContent(FirefoxTestCase):
             self.marionette.navigate(self.test_url)
 
         def check_favicon_image(mn):
-            favicon_image = self.execute_script("\
+            favicon_image = mn.execute_script("\
                 return arguments[0].ownerDocument.defaultView\
                                    .getComputedStyle(arguments[0])\
                                    .getPropertyValue('list-style-image');\

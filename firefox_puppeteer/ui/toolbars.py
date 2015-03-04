@@ -343,25 +343,6 @@ class AutocompleteResults(BaseLib):
 class IdentityPopup(BaseLib):
     """Wraps DOM elements and methods for interacting with the identity popup."""
 
-    def close(self, force=False):
-        """Closes the identity popup.
-
-        :param force: If true, the popup is closed by its own hide function,
-                      otherwise a key event is sent to close the popup.
-        """
-        if not self.is_open:
-            return
-
-        if force:
-            self.marionette.execute_script("""
-              arguments[0].hidePopup();
-            """, script_args=[self.popup])
-        else:
-            (self.marionette.find_element(By.ID, 'identity-popup')
-                            .send_keys(Keys.ESCAPE))
-        Wait(self.marionette).until(
-            lambda _: not self.is_open)
-
     @property
     def box(self):
         """The DOM element which represents the identity box.
@@ -465,3 +446,21 @@ class IdentityPopup(BaseLib):
         :returns: Reference to the identity-popup content verifier.
         """
         return self.marionette.find_element(By.ID, 'identity-popup-content-verifier')
+
+    def close(self, force=False):
+        """Closes the identity popup.
+
+        :param force: If true, the popup is closed by its own hide function,
+                      otherwise a key event is sent to close the popup.
+        """
+        if not self.is_open:
+            return
+
+        if force:
+            self.marionette.execute_script(
+                "arguments[0].hidePopup();",
+                script_args=[self.popup])
+        else:
+            self.popup.send_keys(Keys.ESCAPE)
+
+        Wait(self.marionette).until(lambda _: not self.is_open)

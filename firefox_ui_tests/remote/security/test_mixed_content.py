@@ -15,14 +15,12 @@ class TestMixedContent(FirefoxTestCase):
         with self.marionette.using_context('content'):
             self.marionette.navigate(self.test_url)
 
-        favicon = self.browser.navbar.locationbar.favicon
-
-        def check_favicon_image(self):
+        def check_favicon_image(mn):
             favicon_image = self.execute_script("\
                 return arguments[0].ownerDocument.defaultView\
                                    .getComputedStyle(arguments[0])\
                                    .getPropertyValue('list-style-image');\
-            ", script_args=[favicon])
+            ", script_args=[self.browser.navbar.locationbar.favicon])
             return 'identity-icons-https-mixed-display' in favicon_image
 
         self.wait_for_condition(check_favicon_image)

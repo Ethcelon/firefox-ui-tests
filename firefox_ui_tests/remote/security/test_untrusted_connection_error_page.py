@@ -4,7 +4,8 @@
 
 import time
 
-from marionette_driver import By, MarionetteException
+from marionette_driver import By
+from marionette_driver.errors import MarionetteException
 
 from firefox_ui_harness.testcase import FirefoxTestCase
 

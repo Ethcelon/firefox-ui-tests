@@ -30,4 +30,5 @@ class TestUntrustedConnectionErrorPage(FirefoxTestCase):
                 By.ID, "getMeOutOfHereButton")
             self.assertTrue(button.is_displayed())
             button.click()
-            self.assertEqual(self.marionette.get_url(), 'about:home')
+            self.wait_for_condition(
+                lambda mn: self.browser.default_homepage in mn.get_url())

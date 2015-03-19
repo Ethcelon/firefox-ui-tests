@@ -9,23 +9,15 @@ class TestMixedContent(FirefoxTestCase):
     def setUp(self):
         FirefoxTestCase.setUp(self)
 
-        self.test_url = 'https://mozqa.com/data/firefox/security/mixedcontent.html'
+        self.url = 'https://mozqa.com/data/firefox/security/mixedcontent.html'
 
     def test_mixed_content(self):
         with self.marionette.using_context('content'):
-            self.marionette.navigate(self.test_url)
+            self.marionette.navigate(self.url)
 
-        def check_favicon_image(mn):
-            favicon_image = mn.execute_script("\
-                return arguments[0].ownerDocument.defaultView\
-                                   .getComputedStyle(arguments[0])\
-                                   .getPropertyValue('list-style-image');\
-            ", script_args=[self.browser.navbar.locationbar.favicon])
-            return 'identity-icons-https-mixed-display' in favicon_image
-
-        self.wait_for_condition(check_favicon_image)
-
-        identity_popup = self.browser.navbar.locationbar.identity_popup
+        self.assertTrue('identity-icons-https-mixed-display' in
+                        self.navbar.locationbar.favicon.value_of_css_property('list-style-image'))
+        identity_popup = self.navbar.locationbar.identity_popup
         identity_popup.box.click()
 
         self.wait_for_condition(lambda _: identity_popup.popup.is_displayed())

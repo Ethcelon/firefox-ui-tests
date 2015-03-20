@@ -24,7 +24,7 @@ class TestMixedContent(FirefoxTestCase):
             self.marionette.navigate(self.url)
 
         favicon = self.browser.navbar.locationbar.favicon
-        self.wait_for_condition(lambda _: favicon.get_attribute('hidden') != 'none')
+        Wait(self.marionette).until(lambda _: favicon.get_attribute('hidden') != 'none')
         self.assertTrue("identity-icons-https-mixed-display" in
                         favicon.value_of_css_property('list-style-image'))
 
